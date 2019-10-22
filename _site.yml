@@ -1,0 +1,14 @@
+navbar:
+  title: "Home"
+  right:
+    - text: "About"
+      href: about.html
+    - text: "plotly"
+      href: plotly.html
+    - icon: fa-envelope fa-lg
+      href: mailto:<you@youremail.com>
+    - icon: fa-github fa-lg
+      href: http://github.com/<YOUR_GH_NAME>/
+output:
+  html_document:
+    theme: cerulean

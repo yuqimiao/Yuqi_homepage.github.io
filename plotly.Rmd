@@ -1,0 +1,78 @@
+---
+title: "plotly"
+author: "Yuqi Miao"
+date: "10/22/2019"
+output: html_document
+---
+
+# Plotly
+
+```{r}
+library(tidyverse)
+library(viridis)
+library(p8105.datasets)
+
+library(plotly)
+data("nyc_airbnb")
+```
+
+```{r}
+set.seed(1)
+
+data(nyc_airbnb)
+nyc_airbnb = 
+  nyc_airbnb %>% 
+  mutate(rating = review_scores_location / 2) %>%
+  select(
+    neighbourhood_group, neighbourhood, rating, price, room_type, lat, long) %>%
+  filter(
+    !is.na(rating), 
+    neighbourhood_group == "Manhattan",
+    room_type == "Entire home/apt",
+    price %in% 100:500)  %>% 
+  sample_n(5000)
+```
+
+## scatter plot
+
+
+```{r}
+nyc_airbnb %>% 
+    mutate(text_label = str_c("Price: $", price, '\nRating: ', rating)) %>% 
+    plot_ly(
+    x = ~lat, y = ~long, type = "scatter", mode = "markers",
+    color = ~price, alpha = 0.5,text = ~text_label)
+```
+
+
+## boxplot
+
+```{r}
+nyc_airbnb %>% 
+  mutate(neighbourhood = fct_reorder(neighbourhood, price)) %>% 
+  plot_ly(y = ~price, color = ~neighbourhood, type = "box",
+          colors = "Set2")
+
+```
+
+## barplot
+
+```{r}
+nyc_airbnb %>% 
+  count(neighbourhood) %>% 
+  mutate(neighbourhood = fct_reorder(neighbourhood, n)) %>% 
+  plot_ly(x = ~neighbourhood, y = ~n, color = ~neighbourhood, type = "bar")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
